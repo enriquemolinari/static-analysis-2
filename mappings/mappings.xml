@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<entity-mappings xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+        http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd" version="2.1">
+
+	<entity name="Product" class="ar.cpfw.book.model.Product">
+		<attributes>
+			<id name="id">
+				<generated-value/>
+			</id>	
+		</attributes>
+	</entity>
+
+	<entity name="CreditCard" class="ar.cpfw.book.model.CreditCard">
+		<attributes>
+			<id name="id">
+				<generated-value/>
+			</id>	
+			<transient name="pattern"/> 
+		</attributes>
+	</entity>
+
+	<entity name="Client" class="ar.cpfw.book.model.Client">
+		<attributes>
+			<id name="id">
+				<generated-value/>
+			</id>
+			<one-to-many name="purchases" target-entity="ar.cpfw.book.model.Ticket" mapped-by="client">
+				<cascade><cascade-all/></cascade>
+			</one-to-many>
+			<one-to-many name="creditCards" target-entity="ar.cpfw.book.model.CreditCard">
+				<join-column name="client_id"/>
+				<cascade><cascade-all/></cascade>
+			</one-to-many>
+		</attributes>
+	</entity>
+
+	<entity name="Ticket" class="ar.cpfw.book.model.Ticket">
+		<attributes>
+			<id name="id">
+				<generated-value/>
+			</id>
+			<many-to-one name="discount"/>
+			<many-to-one name="client" fetch="LAZY">
+            	<join-column name="client_id"/>
+        	</many-to-one>
+			<element-collection name="items">
+				<collection-table>
+					<join-column name="ticket_id"/>
+				</collection-table>
+			</element-collection>	
+
+        </attributes>
+	</entity>
+
+	<entity name="Discount" class="ar.cpfw.book.model.Discount">
+		<inheritance/>
+		<discriminator-column name="discount_type"/>
+		<attributes>
+			<id name="id">
+				<generated-value/>
+			</id>	
+			<embedded name="discountInDate"></embedded>
+		</attributes>
+	</entity>
+
+
+	<entity name="DiscountWithPoints" class="ar.cpfw.book.model.DiscountWithPoints">
+		<discriminator-value>with-points</discriminator-value>
+	</entity>
+
+	<embeddable class="ar.cpfw.book.model.DateRange">
+    	<attributes>
+        	<basic name="validFrom">
+            	<column name="validFrom"/>
+	        </basic>
+	        <basic name="validTo">
+	            <column name="validTo"/>
+	        </basic>
+	    </attributes>
+	</embeddable>
+
+	<embeddable class="ar.cpfw.book.model.SalesItem">
+    	<attributes>
+        	<basic name="salesItemId">
+            	<column name="productid"/>
+	        </basic>
+	        <basic name="description"/>
+	        <basic name="price"/>
+	    </attributes>
+	</embeddable>
+
+</entity-mappings>
