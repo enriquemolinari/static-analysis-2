@@ -6,101 +6,105 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class Client {
-	
-	private Long id;
-	private List<CreditCard> creditCards;
-	private List<Ticket> purchases;
-	private int points;
-	private String name;
-	private String surname;
 
-	public Client(String name, String surname, List<CreditCard> cards, int initialPoints) {
-		this.creditCards = Objects.requireNonNull(cards, "Must have at least a credit card");
-		this.points = initialPoints;
-		this.purchases = new ArrayList<>();
-		this.name = Objects.requireNonNull(name, "Must indicate your name");
-		this.surname = Objects.requireNonNull(surname, "Must indicate your surname");
-	}
+  private Long id;
+  private List<CreditCard> creditCards;
+  private List<Ticket> purchases;
+  private int points;
+  private String name;
+  private String surname;
 
-	protected Client() {}
-	
-	public Client(String name, String surname, List<CreditCard> creditCards) {
-		this(name, surname, creditCards, 0);
-	}
+  public Client(String name, String surname, List<CreditCard> cards,
+      int initialPoints) {
+    this.creditCards =
+        Objects.requireNonNull(cards, "Must have at least a credit card");
+    this.points = initialPoints;
+    this.purchases = new ArrayList<>();
+    this.name = Objects.requireNonNull(name, "Must indicate your name");
+    this.surname =
+        Objects.requireNonNull(surname, "Must indicate your surname");
+  }
 
-	public Client(String name, String surname) {
-		this(name, surname, new ArrayList<>(), 0);
-	}
+  protected Client() {}
 
-	public int totalPoints() {
-		return points;
-	}
+  public Client(String name, String surname, List<CreditCard> creditCards) {
+    this(name, surname, creditCards, 0);
+  }
 
-	public void addCreditCard(String number, String dueDate) {
-		this.creditCards.add(new CreditCard(number, dueDate));
-	}
-	
-	public Optional<CreditCard> creditCard(Long cardId) {
-		return creditCards.stream().filter(t -> t.equals(CreditCard.of(cardId))).findFirst();
-	}
-	
-	public void purchase(Ticket ticket) {
-		this.purchases.add(ticket);
-		this.points = ticket.clientPointsAfterDiscount();
-		this.points += ticket.earnedPoints();
-	}
-	
-	public Optional<Ticket> lastPurchase() {
-		if (purchases.size() > 0)
-			return Optional.of(purchases.get(purchases.size() - 1));
-		return Optional.empty();
-	}
+  public Client(String name, String surname) {
+    this(name, surname, new ArrayList<>(), 0);
+  }
 
-	private List<CreditCard> getCreditCards() {
-		return creditCards;
-	}
+  public int totalPoints() {
+    return points;
+  }
 
-	private void setCreditCards(List<CreditCard> creditCards) {
-		this.creditCards = creditCards;
-	}
+  public void addCreditCard(String number, String dueDate) {
+    this.creditCards.add(new CreditCard(number, dueDate));
+  }
 
-	private List<Ticket> getPurchases() {
-		return purchases;
-	}
+  public Optional<CreditCard> creditCard(Long cardId) {
+    return creditCards.stream().filter(t -> t.equals(CreditCard.of(cardId)))
+        .findFirst();
+  }
 
-	private void setPurchases(List<Ticket> purchases) {
-		this.purchases = purchases;
-	}
+  public void purchase(Ticket ticket) {
+    this.purchases.add(ticket);
+    this.points = ticket.clientPointsAfterDiscount();
+    this.points += ticket.earnedPoints();
+  }
 
-	private int getPoints() {
-		return points;
-	}
+  public Optional<Ticket> lastPurchase() {
+    if (purchases.size() > 0)
+      return Optional.of(purchases.get(purchases.size() - 1));
+    return Optional.empty();
+  }
 
-	private void setPoints(int points) {
-		this.points = points;
-	}
+  private List<CreditCard> getCreditCards() {
+    return creditCards;
+  }
 
-	private String getName() {
-		return name;
-	}
+  private void setCreditCards(List<CreditCard> creditCards) {
+    this.creditCards = creditCards;
+  }
 
-	private void setName(String name) {
-		this.name = name;
-	}
+  private List<Ticket> getPurchases() {
+    return purchases;
+  }
 
-	private String getSurname() {
-		return surname;
-	}
+  private void setPurchases(List<Ticket> purchases) {
+    this.purchases = purchases;
+  }
 
-	private void setSurname(String surname) {
-		this.surname = surname;
-	}
+  private int getPoints() {
+    return points;
+  }
 
-	private Long getId() {
-		return id;
-	}
+  private void setPoints(int points) {
+    this.points = points;
+  }
 
-	private void setId(Long id) {
-		this.id = id;
-	}
+  private String getName() {
+    return name;
+  }
+
+  private void setName(String name) {
+    this.name = name;
+  }
+
+  private String getSurname() {
+    return surname;
+  }
+
+  private void setSurname(String surname) {
+    this.surname = surname;
+  }
+
+  private Long getId() {
+    return id;
+  }
+
+  private void setId(Long id) {
+    this.id = id;
+  }
 }
