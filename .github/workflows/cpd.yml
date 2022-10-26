@@ -38,5 +38,7 @@ jobs:
       - uses: jwgmeligmeyling/pmd-github-action@master
         with:
           path: "**/cpd.xml"
+          name: cpd
+          title: code duplication detector
       - name: CPD Check
         run: mvn -B verify pmd:cpd-check
