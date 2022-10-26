@@ -40,7 +40,7 @@ jobs:
         uses: mavrosxristoforos/get-xml-info@1.1.1
         with:
           xml-file: 'target/cpd.xml'
-          xpath: '//duplication/@path'
+          xpath: '//duplication/file/@path'
       - name: Generate Warning Annotations
         run: |
           echo "::error::Duplicated Code"
