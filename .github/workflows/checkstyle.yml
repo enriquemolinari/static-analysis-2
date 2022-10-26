@@ -1,7 +1,7 @@
 # This is a basic workflow to help you get started with Actions
 # https://stackoverflow.com/questions/4297014/what-are-the-differences-between-pmd-and-findbugs
 
-name: PMD
+name: Checkstyle
 
 # Controls when the workflow will run
 on:
@@ -33,10 +33,11 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      - name: PMD Report
-        run: mvn -B verify pmd:pmd
-      - uses: jwgmeligmeyling/pmd-github-action@master
+      # static analysis reporting
+      - name: Checkstyle Report
+        run: mvn -B verify checkstyle:checkstyle
+      - uses: jwgmeligmeyling/checkstyle-github-action@master
         with:
-          path: "**/pmd.xml"
-      - name: PMD Check
-        run: mvn -B verify pmd:check
+          path: "**/checkstyle-result.xml"
+      - name: Checkstyle Check
+        run: mvn -B verify checkstyle:check
