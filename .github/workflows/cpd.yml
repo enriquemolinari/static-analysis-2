@@ -35,10 +35,8 @@ jobs:
             ${{ runner.os }}-maven-
       - name: CPD Report
         run: mvn -B verify pmd:cpd
-      - uses: jwgmeligmeyling/pmd-github-action@master
+      - uses: pavi2410/html-preview-action@v2
         with:
-          path: "**/cpd.xml"
-          name: cpd
-          title: code duplication detector
+          html_file: "cpd.xml"
       - name: CPD Check
         run: mvn -B verify pmd:cpd-check
