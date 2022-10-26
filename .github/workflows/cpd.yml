@@ -44,6 +44,6 @@ jobs:
       - name: Generate Warning Annotations
         run: |
           text="This is a Warning"
-          echo ${{ steps.getxml.outputs.info }}
+          echo "bla $text ${{ steps.getxml.outputs.info }}"
       - name: CPD Check
         run: mvn -B verify pmd:cpd-check
