@@ -37,6 +37,6 @@ jobs:
         run: mvn -B verify pmd:cpd
       - uses: jwgmeligmeyling/pmd-github-action@master
         with:
-          path: "**/cmd.xml"
+          path: "**/cpd.xml"
       - name: CPD Check
         run: mvn -B verify pmd:cpd-check
