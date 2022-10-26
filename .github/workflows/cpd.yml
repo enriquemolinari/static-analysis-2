@@ -35,8 +35,15 @@ jobs:
             ${{ runner.os }}-maven-
       - name: CPD Report
         run: mvn -B verify pmd:cpd
-      - uses: pavi2410/html-preview-action@v2
+      - name: Get XML
+        id: getxml
+        uses: mavrosxristoforos/get-xml-info@1.0
         with:
-          html_file: "cpd.xml"
+          xml-file: 'target/cpd.xml'
+          xpath: '//pmd-cpd'
+      - name: Generate Warning Annotations
+        run: |
+          text="This is a Warning"
+          echo ${{ steps.getxml.outputs.info }}
       - name: CPD Check
         run: mvn -B verify pmd:cpd-check
