@@ -4,11 +4,11 @@ import java.util.Map;
 
 public interface Promotion {
 
-	Long id();
+  Long id();
 
-	Map<String, String> represent();
+  Map<String, String> represent();
 
-	String validFrom();
-	
-	String validTo();
+  String validFrom();
+
+  String validTo();
 }

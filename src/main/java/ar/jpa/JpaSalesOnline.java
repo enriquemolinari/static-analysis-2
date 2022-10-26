@@ -15,6 +15,7 @@ public class JpaSalesOnline implements SalesOnline {
 
   private EntityManager em;
 
+  @SuppressFBWarnings(value = {"EI_EXPOSE_REP2"})
   public JpaSalesOnline(EntityManager em) {
     this.em = em;
   }

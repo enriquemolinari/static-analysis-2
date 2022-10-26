@@ -93,6 +93,39 @@ public class DefaultSaleService implements SaleService {
     };
   }
 
+  public ClientCart duplicatedCode(Long clientId, List<Long> idProducts,
+      Long idDiscount) {
+    Function<SalesOnline, Ticket> codeBlock = (salesOnline) -> {
+
+      var client = salesOnline.client(clientId).orElseThrow(
+          () -> new IllegalArgumentException("clientId does not exists..."));
+
+      if (idDiscount == null)
+        return new Cart(salesOnline.products(idProducts)).emitTicket(client);
+
+      return new Cart(salesOnline.products(idProducts),
+          salesOnline.discount(idDiscount)).emitTicket(client);
+
+    };
+
+    var ticket = work.tx(codeBlock);
+
+    var purchaseDetail = this.toPurchaseDetail(ticket);
+
+    return new ClientCart() {
+      @Override
+      public PurchaseDetail detail() {
+        return purchaseDetail;
+      }
+
+      @Override
+      public int clientPoints() {
+        return ticket.clientPointsAfterDiscount() + ticket.earnedPoints();
+      }
+    };
+  }
+  
+  
   private PurchaseDetail toPurchaseDetail(Ticket ticket) {
     return new PurchaseDetail() {
       @Override
