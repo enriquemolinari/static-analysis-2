@@ -35,15 +35,12 @@ jobs:
             ${{ runner.os }}-maven-
       - name: CPD Report
         run: mvn -B verify pmd:cpd
-      - name: Get XML
-        id: getxml
-        uses: mavrosxristoforos/get-xml-info@1.0
+      - name: Read file contents
+        id: read_file
+        uses: andstor/file-reader-action@v1
         with:
-          xml-file: 'target/cpd.xml'
-          xpath: '//pmd-cpd'
-      - name: Generate Warning Annotations
-        run: |
-          text="This is a Warning"
-          echo "::warning::$text::$steps.getxml.outputs.info"
+          path: "target/cpd.xml"
+      - name: File contents
+        run: echo "${ steps.read_file.outputs.contents }"
       - name: CPD Check
         run: mvn -B verify pmd:cpd-check
